@@ -19,14 +19,13 @@ jobs:
           node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Create Dist
+      - name: Create Build
         run: yarn install && yarn build
 
       - name: Prepare Release
-        run: cp package.json dist && cp README.md dist
+        run: cp package.json build && cp README.md build
 
       - name: Publish to npm
-        run: cd dist && yarn publish
+        run: cd build && yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
