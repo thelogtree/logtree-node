@@ -20,8 +20,8 @@ import { Logtree } from "logtree-node";
 const MyLogtree = new Logtree(your_publishable_api_key, your_secret_key)
 
 // send a log
-MyLogtree.sendLog("The user just performed some action!", "/actions") 
+MyLogtree.sendLog("Some user just joined my waitlist!", "/waitlist") 
 ```
 
-## Your logs will be viewable and searchable in channels in the Logtree dashboard
+## Your logs will be viewable and searchable in the Logtree dashboard
 <img width="283" alt="Screenshot 2023-05-18 at 4 54 19 PM" src="https://github.com/thelogtree/logtree-node/assets/62567315/284cc140-6201-4089-b402-1d9fe60f2070">
