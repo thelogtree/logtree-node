@@ -1,6 +1,6 @@
 {
   "name": "logtree-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NodeJS package for interacting with the Logtree API.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/thelogtree/types#readme",
   "devDependencies": {
-    "@types/lodash": "^4.14.167",
     "typescript": "^4.1.3"
   },
   "dependencies": {
