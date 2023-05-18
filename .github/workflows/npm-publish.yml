@@ -1,0 +1,32 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+name: CI
+on:
+  push:
+    branches: [main]
+env:
+  CI: true
+jobs:
+  build-and-publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "18.x"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Create Dist
+        run: yarn install && yarn build
+
+      - name: Prepare Release
+        run: cp package.json dist && cp README.md dist
+
+      - name: Publish to npm
+        run: cd dist && yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
