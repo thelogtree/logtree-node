@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 
 const SERVER_URL = "https://logtree-server.onrender.com/api/v1";
 
