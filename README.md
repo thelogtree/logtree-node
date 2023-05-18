@@ -1,6 +1,18 @@
 # Logtree NodeJS package
 
-How to send a log to Logtree
+## How to install the package
+
+If you're using yarn:
+```
+yarn add logtree-node
+```
+
+If you're using npm:
+```
+npm install logtree-node
+```
+
+## How to send a log to Logtree
 ```
 import { Logtree } from "logtree-node";
 
