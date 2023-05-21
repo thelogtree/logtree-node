@@ -65,7 +65,7 @@ export class Logtree {
   }
 
   public recordRouteCalls(req: Request, _res: Response, next: NextFunction) {
-    const folderPath = req.path;
+    const folderPath = "/route-calls" + req.path;
     void this.sendLog(
       `${req.method} ${req.protocol + "://" + req.hostname + req.originalUrl}`,
       folderPath,
