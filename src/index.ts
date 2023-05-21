@@ -66,6 +66,9 @@ export class Logtree {
   private getRelevantContext(req: Request) {
     const userAgent = UAParser(req.headers["user-agent"]);
     return {
+      ...((req as any)["user"]
+        ? { user: JSON.stringify((req as any)["user"]) }
+        : {}),
       url: `${req.method} ${
         req.protocol + "://" + req.hostname + req.originalUrl
       }`,
