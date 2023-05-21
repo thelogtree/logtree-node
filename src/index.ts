@@ -7,10 +7,22 @@ const SERVER_URL = "https://logtree-server.onrender.com/api/v1";
 export class Logtree {
   publishableApiKey: string;
   secretKey: string;
+  shouldLogErrors: boolean;
 
-  constructor(publishableApiKey: string, secretKey: string) {
+  /**
+   * @constructor creates a Logtree instance
+   * @param {String} publishableApiKey your publishable api key (found in the API dashboard tab of the Logtree dashboard)
+   * @param {String} secretKey your secret key (generate one in the API dashboard tab of the Logtree dashboard)
+   * @param {Boolean} shouldLogErrors (defaults to true) in the event of a Logtree error, this will log the error in your console
+   */
+  constructor(
+    publishableApiKey: string,
+    secretKey: string,
+    shouldLogErrors: boolean = true
+  ) {
     this.publishableApiKey = publishableApiKey;
     this.secretKey = secretKey;
+    this.shouldLogErrors = shouldLogErrors;
   }
 
   /**
@@ -59,7 +71,9 @@ export class Logtree {
         }
       );
     } catch (e) {
-      console.error(e);
+      if (this.shouldLogErrors) {
+        console.error(e);
+      }
     }
   }
 
