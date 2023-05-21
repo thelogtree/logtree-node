@@ -42,7 +42,7 @@ export class Logtree {
           ...cleanedContext,
         };
       }
-
+        console.log("right before call")
       await axios.post(
         SERVER_URL + "/logs",
         {
@@ -59,12 +59,14 @@ export class Logtree {
           },
         }
       );
+      console.log("right after call")
     } catch (e) {
       console.error(e);
     }
   }
 
   public recordRouteCalls(req: Request, _res: Response, next: NextFunction) {
+    console.log("starting record")
     const folderPath = "/route-calls" + req.path;
     void this.sendLog(
       `${req.method} ${req.protocol + "://" + req.hostname + req.originalUrl}`,
@@ -73,6 +75,7 @@ export class Logtree {
       undefined,
       req
     );
+    console.log("ending record")
     next();
   }
 
