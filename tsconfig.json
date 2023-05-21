@@ -10,7 +10,8 @@
     "moduleResolution": "node",
     "outDir": "build",
     "allowJs": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "lib": ["ES2015"]
   },
   "include": ["src"],
   "exclude": ["node_modules"]
