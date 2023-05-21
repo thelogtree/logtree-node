@@ -26,6 +26,6 @@ jobs:
         run: cp package.json build && cp README.md build
 
       - name: Publish to npm
-        run: cd build && yarn publish
+        run: cd dist && yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
