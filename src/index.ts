@@ -14,23 +14,6 @@ export class Logtree {
   }
 
   /**
-   * @description use as middleware. this will record any requests to your server in logtree.
-   */
-  public recordRouteCalls(req: Request, _res: Response, next: NextFunction) {
-    console.log("starting")
-    const folderPath = "/route-calls" + req.path;
-    void this.sendLog(
-      `${req.method} ${req.protocol + "://" + req.hostname + req.originalUrl}`,
-      folderPath,
-      undefined,
-      undefined,
-      req
-    );
-    console.log("ending")
-    next();
-  }
-
-  /**
    * @description sends a log to Logtree which can be viewed in the Logtree platform.
    * @param {String} content whatever information you want to log to Logtree
    * @param {String} folderPath the folderPath of where you want the log to live in Logtree. (e.g. "/transactions/suspicious", "/new-users", etc.)
