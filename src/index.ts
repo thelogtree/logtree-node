@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Request } from "express";
+import { NextFunction, Request, Response } from "express";
 import UAParser from "ua-parser-js";
 
 const SERVER_URL = "https://logtree-server.onrender.com/api/v1";
@@ -62,6 +62,22 @@ export class Logtree {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  public async recordRouteCalls(
+    req: Request,
+    _res: Response,
+    next: NextFunction
+  ) {
+    const folderPath = req.path;
+    void this.sendLog(
+      `${req.method} ${req.protocol + "://" + req.hostname + req.originalUrl}`,
+      folderPath,
+      undefined,
+      undefined,
+      req
+    );
+    next();
   }
 
   private getRelevantContext(req: Request) {
