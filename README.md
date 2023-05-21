@@ -1,5 +1,7 @@
 # Logtree NodeJS package
 
+This package is only available to people who already have a Logtree account. You can learn more about Logtree and join the waitlist [here.](https://logtree.co)
+
 ## How to install the package
 
 If you're using yarn:
