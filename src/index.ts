@@ -13,7 +13,11 @@ export class Logtree {
     this.secretKey = secretKey;
   }
 
+  /**
+   * @description use as middleware. this will record any requests to your server in logtree.
+   */
   public recordRouteCalls(req: Request, _res: Response, next: NextFunction) {
+    console.log("starting")
     const folderPath = "/route-calls" + req.path;
     void this.sendLog(
       `${req.method} ${req.protocol + "://" + req.hostname + req.originalUrl}`,
@@ -22,6 +26,7 @@ export class Logtree {
       undefined,
       req
     );
+    console.log("ending")
     next();
   }
 
