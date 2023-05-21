@@ -13,6 +13,18 @@ export class Logtree {
     this.secretKey = secretKey;
   }
 
+  public recordRouteCalls(req: Request, _res: Response, next: NextFunction) {
+    const folderPath = "/route-calls" + req.path;
+    void this.sendLog(
+      `${req.method} ${req.protocol + "://" + req.hostname + req.originalUrl}`,
+      folderPath,
+      undefined,
+      undefined,
+      req
+    );
+    next();
+  }
+
   /**
    * @description sends a log to Logtree which can be viewed in the Logtree platform.
    * @param {String} content whatever information you want to log to Logtree
@@ -42,7 +54,6 @@ export class Logtree {
           ...cleanedContext,
         };
       }
-        console.log("right before call")
       await axios.post(
         SERVER_URL + "/logs",
         {
@@ -59,24 +70,9 @@ export class Logtree {
           },
         }
       );
-      console.log("right after call")
     } catch (e) {
       console.error(e);
     }
-  }
-
-  public recordRouteCalls(req: Request, _res: Response, next: NextFunction) {
-    console.log("starting record")
-    const folderPath = "/route-calls" + req.path;
-    void this.sendLog(
-      `${req.method} ${req.protocol + "://" + req.hostname + req.originalUrl}`,
-      folderPath,
-      undefined,
-      undefined,
-      req
-    );
-    console.log("ending record")
-    next();
   }
 
   private getRelevantContext(req: Request) {
