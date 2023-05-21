@@ -2,8 +2,8 @@
   "name": "logtree-node",
   "version": "1.0.10",
   "description": "NodeJS package for interacting with the Logtree API.",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
