@@ -11,7 +11,7 @@
     "outDir": "build",
     "allowJs": true,
     "downlevelIteration": true,
-    "lib": ["ES2015"]
+    "lib": ["ES2015", "DOM"]
   },
   "include": ["src"],
   "exclude": ["node_modules"]
