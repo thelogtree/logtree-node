@@ -51,7 +51,8 @@ type SendLogParams = {
    */
   externalLink?: string;
   /**
-   * providing this will autopopulate your logs with relevant context from the request
+   * providing this will autopopulate your logs with relevant context from the request.
+   * info that will be autopopulated includes: req.user, user-agent header, the method and url of the request, etc
    */
   req?: Request;
   /**
