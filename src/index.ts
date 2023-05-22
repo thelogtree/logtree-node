@@ -104,7 +104,7 @@ export class Logtree {
       ...((req as any)["user"]
         ? { user: JSON.stringify((req as any)["user"]) }
         : {}),
-      request_sent_from: req.headers.origin,
+      request_sent_from: req.headers.referer,
       request_sent_to: `${req.method} ${
         req.protocol + "://" + req.hostname + req.originalUrl
       }`,
