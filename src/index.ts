@@ -4,6 +4,33 @@ import UAParser from "ua-parser-js";
 
 const SERVER_URL = "https://logtree-server.onrender.com/api/v1";
 
+type SendLogParams = {
+  /**
+   * whatever information you want to log to Logtree
+   */
+  content: string;
+  /**
+   * folderPath the folderPath of where you want the log to live in Logtree. (e.g. "/transactions/suspicious", "/new-users", etc). This must start with a "/" and not contain any spaces.
+   */
+  folderPath: string;
+  /**
+   * some referenceId you want the log to belong to (we recommend you make this the user's email when possible). This makes searching for logs easier in Logtree.
+   */
+  referenceId?: string;
+  /**
+   * if you want to be linked somewhere when you click on this log in Logtree, put that url here. (e.g. maybe you want it to link to a user's dashboard in some 3rd party application).
+   */
+  externalLink?: string;
+  /**
+   * providing this will autopopulate your logs with relevant context from the request
+   */
+  req?: Request;
+  /**
+   * any other additional data you want to record that is relevant to this log
+   */
+  additionalContext?: Object;
+};
+
 export class Logtree {
   publishableApiKey: string;
   secretKey: string;
@@ -27,22 +54,16 @@ export class Logtree {
 
   /**
    * @description sends a log to Logtree which can be viewed in the Logtree platform.
-   * @param {String} content whatever information you want to log to Logtree
-   * @param {String} folderPath the folderPath of where you want the log to live in Logtree. (e.g. "/transactions/suspicious", "/new-users", etc.)
-   * This must start with a "/" and not contain any spaces.
-   * @param {String?} referenceId some referenceId you want the log to belong to (we recommend you make this the user's email when possible). This makes searching for logs easier in Logtree.
-   * @param {String?} externalLink if you want to be linked somewhere when you click on this log in Logtree, put that url here. (e.g. maybe you want it to link to a user's dashboard in some 3rd party application).
-   * @param {Request?} req providing this will autopopulate your logs with context from the request
-   * @param {Object?} additionalContext any other additional data you want to record that is relevant to this log
+   * @param {SendLogParams} logDetails
    */
-  public async sendLog(
-    content: string,
-    folderPath: string,
-    referenceId?: string,
-    externalLink?: string,
-    req?: Request,
-    additionalContext?: Object
-  ) {
+  public async sendLog({
+    content,
+    folderPath,
+    referenceId,
+    externalLink,
+    req,
+    additionalContext,
+  }: SendLogParams) {
     try {
       let cleanedContext;
       if (req) {
