@@ -99,13 +99,14 @@ export class Logtree {
   }
 
   public recordRouteCall(req: Request, _res: Response, next: NextFunction) {
-    void this.sendLog({
-      content: `${req.method} ${
-        req.protocol + "://" + req.hostname + req.originalUrl
-      }`,
-      folderPath: "/routes",
-      req,
-    });
+    // void this.sendLog({
+    //   content: `${req.method} ${
+    //     req.protocol + "://" + req.hostname + req.originalUrl
+    //   }`,
+    //   folderPath: "/routes",
+    //   req,
+    // });
+    console.log(req.body)
     next();
   }
 
