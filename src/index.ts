@@ -98,6 +98,17 @@ export class Logtree {
     }
   }
 
+  public recordRouteCall(req: Request, _res: Response, next: NextFunction) {
+    void this.sendLog({
+      content: `${req.method} ${
+        req.protocol + "://" + req.hostname + req.originalUrl
+      }`,
+      folderPath: "/routes",
+      req,
+    });
+    next();
+  }
+
   private getRelevantContext(req: Request) {
     const userAgent = UAParser(req.headers["user-agent"]);
     return {
