@@ -69,7 +69,10 @@ export class Logtree {
       if (req) {
         cleanedContext = this.getRelevantContext(req);
       }
-      if (additionalContext && JSON.stringify(additionalContext).length) {
+      if (
+        additionalContext &&
+        JSON.stringify(additionalContext).length < 1700
+      ) {
         cleanedContext = {
           ...additionalContext,
           ...cleanedContext,
