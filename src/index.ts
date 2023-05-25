@@ -69,9 +69,15 @@ export class Logtree {
       if (req) {
         cleanedContext = this.getRelevantContext(req);
       }
-      if (additionalContext) {
+      if (additionalContext && JSON.stringify(additionalContext).length) {
         cleanedContext = {
           ...additionalContext,
+          ...cleanedContext,
+        };
+      } else if (additionalContext) {
+        cleanedContext = {
+          logtree_message:
+            "additionalContext not recorded because it is too long",
           ...cleanedContext,
         };
       }
@@ -98,29 +104,16 @@ export class Logtree {
     }
   }
 
-  public recordRouteCall(req: Request, _res: Response, next: NextFunction) {
-    // void this.sendLog({
-    //   content: `${req.method} ${
-    //     req.protocol + "://" + req.hostname + req.originalUrl
-    //   }`,
-    //   folderPath: "/routes",
-    //   req,
-    // });
-    console.log(req.body)
-    next();
-  }
-
   private getRelevantContext(req: Request) {
     const userAgent = UAParser(req.headers["user-agent"]);
     return {
-      ...((req as any)["user"] ? { user: (req as any)["user"] } : {}),
       request_sent_from: req.headers.referer,
       request_sent_to: `${req.method} ${
         req.protocol + "://" + req.hostname + req.originalUrl
       }`,
-      body: req.body,
-      query: req.query,
-      params: req.params,
+      body: JSON.stringify(req.body).length > 500 ? "too long" : req.body,
+      query: JSON.stringify(req.query).length > 500 ? "too long" : req.query,
+      params: JSON.stringify(req.params).length > 500 ? "too long" : req.body,
       ...userAgent,
     };
   }
