@@ -31,17 +31,6 @@ type SendLogParams = {
   additionalContext?: Object;
 };
 
-type SendDebugLogParams = {
-  /**
-   * whatever information you want to log to Logtree
-   */
-  content: string;
-  /**
-   * providing this will autopopulate your logs with relevant context from the request
-   */
-  req?: Request;
-};
-
 export class Logtree {
   publishableApiKey: string;
   secretKey: string;
@@ -121,9 +110,10 @@ export class Logtree {
   /**
    * @description sends a log to Logtree for quick debugging purposes. this function has simpler syntax for quick implementation, but capability is limited.
    * logs from this function will appear in the /debugging channel in Logtree.
-   * @param {SendDebugLogParams} logDetails
+   * @param {String} content whatever information you want to log to Logtree
+   * @param {Request} req providing this will autopopulate your logs with relevant context from the request
    */
-  public async sendDebugLog({ content, req }: SendDebugLogParams) {
+  public async sendDebugLog(content: string, req?: Request) {
     try {
       let cleanedContext;
       if (req) {
