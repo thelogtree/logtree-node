@@ -111,7 +111,7 @@ export class Logtree {
    * @description sends a log to Logtree for quick debugging purposes. this function has simpler syntax for quick implementation, but capability is limited.
    * logs from this function will appear in the /debugging channel in Logtree.
    * @param {String} content whatever information you want to log to Logtree
-   * @param {Request} req providing this will autopopulate your logs with relevant context from the request
+   * @param {Request?} req providing this will autopopulate your logs with relevant context from the request
    */
   public async sendDebugLog(content: string, req?: Request) {
     try {

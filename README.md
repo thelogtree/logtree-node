@@ -26,6 +26,9 @@ const MyLogtree = new Logtree(your_publishable_api_key, your_secret_key)
 
 // send a log
 MyLogtree.sendLog({ content: "Some user just joined my waitlist!", folderPath: "/waitlist" })
+
+// send a log for quick debugging purposes
+MyLogtree.sendDebugLog("got here")
 ```
 
 ## sendLog details
@@ -63,6 +66,12 @@ type SendLogParams = {
 ```
 
 In the example above, you can see that we decided to only send the `content` and the `folderPath` of the log.
+
+## sendDebugLog details
+
+The `sendDebugLog` function takes in a string as the first argument (whatever you want to log) and optionally the express request as the second argument. If the request is provided, we'll autopopulate additional context to the log about the request details.
+
+This function is meant for quick debugging purposes as an alternative to console.log(""). Logs sent with the sendDebugLog function will appear in the /debugging channel in Logtree.
 
 ## Your logs will be viewable and searchable in the Logtree dashboard
 
