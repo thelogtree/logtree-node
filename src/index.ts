@@ -31,6 +31,17 @@ type SendLogParams = {
   additionalContext?: Object;
 };
 
+type SendDebugLogParams = {
+  /**
+   * whatever information you want to log to Logtree
+   */
+  content: string;
+  /**
+   * providing this will autopopulate your logs with relevant context from the request
+   */
+  req?: Request;
+};
+
 export class Logtree {
   publishableApiKey: string;
   secretKey: string;
@@ -91,6 +102,39 @@ export class Logtree {
           folderPath,
           referenceId,
           externalLink,
+          additionalContext: cleanedContext,
+        },
+        {
+          headers: {
+            "x-logtree-key": this.publishableApiKey,
+            authorization: this.secretKey,
+          },
+        }
+      );
+    } catch (e) {
+      if (this.shouldLogErrors) {
+        console.error(e);
+      }
+    }
+  }
+
+  /**
+   * @description sends a log to Logtree for quick debugging purposes. this function has simpler syntax for quick implementation, but capability is limited.
+   * logs from this function will appear in the /debugging channel in Logtree.
+   * @param {SendDebugLogParams} logDetails
+   */
+  public async sendDebugLog({ content, req }: SendDebugLogParams) {
+    try {
+      let cleanedContext;
+      if (req) {
+        cleanedContext = this.getRelevantContext(req);
+      }
+
+      await axios.post(
+        SERVER_URL + "/logs",
+        {
+          content,
+          folderPath: "/debugging",
           additionalContext: cleanedContext,
         },
         {
