@@ -1,6 +1,8 @@
-import axios from "axios";
-import { NextFunction, Request, Response } from "express";
+import axios, { AxiosError } from "axios";
+import { Request } from "express";
+import _ from "lodash";
 import UAParser from "ua-parser-js";
+import StackTrace from "stacktrace-js";
 
 const SERVER_URL = "https://logtree-server.onrender.com/api/v1";
 
@@ -125,6 +127,51 @@ export class Logtree {
         {
           content,
           folderPath: "/debugging",
+          additionalContext: cleanedContext,
+        },
+        {
+          headers: {
+            "x-logtree-key": this.publishableApiKey,
+            authorization: this.secretKey,
+          },
+        }
+      );
+    } catch (e) {
+      if (this.shouldLogErrors) {
+        console.error(e);
+      }
+    }
+  }
+
+  /**
+   * @description sends an error log to Logtree. These logs will be stored in the /errors channel in Logtree.
+   * @param {Error | AxiosError} error the error you want to log to Logtree
+   * @param {Request?} req providing this will autopopulate your logs with relevant context from the request
+   */
+  public async sendErrorLog(error: Error, req?: Request) {
+    try {
+      let cleanedContext;
+      if (req) {
+        cleanedContext = this.getRelevantContext(req);
+      }
+      const stacktraceInfo = await StackTrace.fromError(error);
+      cleanedContext = {
+        fileOfError: stacktraceInfo[0].fileName,
+        lineNumberOfError: stacktraceInfo[0].lineNumber,
+        file: stacktraceInfo[0].fileName,
+        ...cleanedContext,
+      };
+      const proposedError = _.get(error, "response.data", error.message);
+      const stringifiedError =
+        typeof proposedError === "string"
+          ? proposedError
+          : JSON.stringify(proposedError);
+
+      await axios.post(
+        SERVER_URL + "/logs",
+        {
+          content: stringifiedError,
+          folderPath: "/errors",
           additionalContext: cleanedContext,
         },
         {

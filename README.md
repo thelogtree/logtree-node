@@ -73,6 +73,12 @@ The `sendDebugLog` function takes in a string as the first argument (whatever yo
 
 This function is meant for quick debugging purposes as an alternative to console.log(""). Logs sent with the sendDebugLog function will appear in the /debugging channel in Logtree.
 
+## sendErrorLog details
+
+The `sendErrorLog` function takes in an error as the first argument and optionally the express request as the second argument. If the request is provided, we'll autopopulate additional context to the log about the request details.
+
+Error logs sent with the sendErrorLog function will appear in the /errors channel in Logtree.
+
 ## Your logs will be viewable and searchable in the Logtree dashboard
 
 <img width="283" alt="Screenshot 2023-05-18 at 4 54 19 PM" src="https://github.com/thelogtree/logtree-node/assets/62567315/284cc140-6201-4089-b402-1d9fe60f2070">
