@@ -1,6 +1,6 @@
 # Logtree NodeJS package
 
-This package is only available to people who already have a Logtree account. You can learn more about Logtree and join the waitlist [here.](https://logtree.co)
+This package is only available to people who already have a Logtree account. You can learn more about Logtree and sign up for free [here.](https://logtree.co)
 
 ## How to install the package
 
@@ -65,7 +65,7 @@ type SendLogParams = {
 };
 ```
 
-In the example above, you can see that we decided to only send the `content` and the `folderPath` of the log.
+In the example above, you can see that we decided to only send the `content` and the `folderPath` of the log. Note that if Logtree were to ever error out (say you exceeded your account log limit), we'll automatically catch the error for you if you use this package.
 
 ## sendDebugLog details
 
