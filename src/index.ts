@@ -177,12 +177,25 @@ export class Logtree {
       if (req) {
         cleanedContext = this.getRelevantContext(req);
       }
+      if (
+        additionalContext &&
+        JSON.stringify(additionalContext).length < 1700
+      ) {
+        cleanedContext = {
+          ...additionalContext,
+          ...cleanedContext,
+        };
+      } else if (additionalContext) {
+        cleanedContext = {
+          logtree_message:
+            "additionalContext not recorded because it is too long",
+          ...cleanedContext,
+        };
+      }
       const stacktraceInfo = await StackTrace.fromError(error);
       cleanedContext = {
         fileOfError: stacktraceInfo[0].fileName,
         lineNumberOfError: stacktraceInfo[0].lineNumber,
-        file: stacktraceInfo[0].fileName,
-        ...additionalContext,
         ...cleanedContext,
       };
       const proposedError = _.get(error, "response.data", error.message);
