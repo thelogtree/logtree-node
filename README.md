@@ -75,7 +75,28 @@ This function is meant for quick debugging purposes as an alternative to console
 
 ## sendErrorLog details
 
-The `sendErrorLog` function takes in an error as the first argument and optionally the express request as the second argument. If the request is provided, we'll autopopulate additional context to the log about the request details.
+The `sendErrorLog` function takes in an object of type SendErrorLogParams with the following fields:
+
+```
+type SendErrorLogParams = {
+  /**
+   * the error you want to log to Logtree
+   */
+  error: Error | AxiosError;
+  /**
+   * some referenceId you want the log to belong to (we recommend you make this the user's email when possible). This makes searching for logs easier in Logtree.
+   */
+  referenceId?: string;
+  /**
+   * providing this will autopopulate your logs with relevant context from the request
+   */
+  req?: Request;
+  /**
+   * any other additional data you want to record that is relevant to this log
+   */
+  additionalContext?: Object;
+};
+```
 
 Error logs sent with the sendErrorLog function will appear in the /errors channel in Logtree.
 
