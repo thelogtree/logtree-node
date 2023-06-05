@@ -33,6 +33,25 @@ type SendLogParams = {
   additionalContext?: Object;
 };
 
+type SendErrorLogParams = {
+  /**
+   * the error you want to log to Logtree
+   */
+  error: Error | AxiosError;
+  /**
+   * some referenceId you want the log to belong to (we recommend you make this the user's email when possible). This makes searching for logs easier in Logtree.
+   */
+  referenceId?: string;
+  /**
+   * providing this will autopopulate your logs with relevant context from the request
+   */
+  req?: Request;
+  /**
+   * any other additional data you want to record that is relevant to this log
+   */
+  additionalContext?: Object;
+};
+
 export class Logtree {
   publishableApiKey: string;
   secretKey: string;
@@ -144,11 +163,15 @@ export class Logtree {
   }
 
   /**
-   * @description sends an error log to Logtree. These logs will be stored in the /errors channel in Logtree.
-   * @param {Error | AxiosError} error the error you want to log to Logtree
-   * @param {Request?} req providing this will autopopulate your logs with relevant context from the request
+   * @description sends an error log to Logtree which will be stored in a /errors channel.
+   * @param {SendLogParams} logDetails
    */
-  public async sendErrorLog(error: Error, req?: Request) {
+  public async sendErrorLog({
+    error,
+    referenceId,
+    req,
+    additionalContext,
+  }: SendErrorLogParams) {
     try {
       let cleanedContext;
       if (req) {
@@ -159,6 +182,7 @@ export class Logtree {
         fileOfError: stacktraceInfo[0].fileName,
         lineNumberOfError: stacktraceInfo[0].lineNumber,
         file: stacktraceInfo[0].fileName,
+        ...additionalContext,
         ...cleanedContext,
       };
       const proposedError = _.get(error, "response.data", error.message);
@@ -173,6 +197,7 @@ export class Logtree {
           content: stringifiedError,
           folderPath: "/errors",
           additionalContext: cleanedContext,
+          referenceId,
         },
         {
           headers: {
