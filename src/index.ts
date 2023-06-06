@@ -202,7 +202,6 @@ export class Logtree {
 
       cleanedContext = {
         stacktrace,
-        lineNumberOfError: stacktraceInfo[0].lineNumber,
         ...cleanedContext,
       };
       const proposedError = _.get(error, "response.data", error.message);
