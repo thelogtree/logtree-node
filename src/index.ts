@@ -194,14 +194,14 @@ export class Logtree {
       }
       const stacktraceInfo = await StackTrace.fromError(error);
 
-      let fileNames = "";
+      let stacktrace = "";
       stacktraceInfo.forEach((trace) => {
-        fileNames += "\n";
-        fileNames += trace.fileName;
+        stacktrace += "\n";
+        stacktrace += `${trace.fileName} (line ${trace.lineNumber})`;
       });
 
       cleanedContext = {
-        filesOfErrorStacktrace: fileNames,
+        stacktrace,
         lineNumberOfError: stacktraceInfo[0].lineNumber,
         ...cleanedContext,
       };
