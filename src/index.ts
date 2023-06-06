@@ -193,8 +193,15 @@ export class Logtree {
         };
       }
       const stacktraceInfo = await StackTrace.fromError(error);
+
+      let fileNames = "";
+      stacktraceInfo.forEach((trace) => {
+        fileNames += "\n";
+        fileNames += trace.fileName;
+      });
+
       cleanedContext = {
-        fileOfError: stacktraceInfo[0].fileName,
+        filesOfErrorStacktrace: fileNames,
         lineNumberOfError: stacktraceInfo[0].lineNumber,
         ...cleanedContext,
       };
