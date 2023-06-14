@@ -164,7 +164,7 @@ export class Logtree {
 
   /**
    * @description sends an error log to Logtree which will be stored in a /errors channel.
-   * @param {SendLogParams} logDetails
+   * @param {SendErrorLogParams} logDetails
    */
   public async sendErrorLog({
     error,
