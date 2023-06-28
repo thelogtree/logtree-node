@@ -3,6 +3,7 @@ import { Request } from "express";
 import _ from "lodash";
 import UAParser from "ua-parser-js";
 import StackTrace from "stacktrace-js";
+import { Server } from "http";
 
 const SERVER_URL = "https://logtree-server.onrender.com/api/v1";
 
@@ -230,6 +231,52 @@ export class Logtree {
         console.error(e);
       }
     }
+  }
+
+  /**
+   * @description sets up monitors instantly and automatically
+   * @param {Server} server the node http server
+   */
+  public startMonitoring(server: Server) {
+    server.on("request", async (req, res) => {
+      console.log("hit endpoint " + req.url);
+      try {
+        await axios.post(
+          SERVER_URL + "/track",
+          {
+            path: req.url,
+          },
+          {
+            headers: {
+              "x-logtree-key": this.publishableApiKey,
+              authorization: this.secretKey,
+            },
+          }
+        );
+      } catch {
+        // swallow any Logtree error silently
+      }
+      req.on("error", async (error) => {
+        console.error(error.message);
+        try {
+          await axios.post(
+            SERVER_URL + "/track",
+            {
+              path: req.url,
+              errorCode: res.statusCode?.toString() || "500",
+            },
+            {
+              headers: {
+                "x-logtree-key": this.publishableApiKey,
+                authorization: this.secretKey,
+              },
+            }
+          );
+        } catch {
+          // swallow any Logtree error silently
+        }
+      });
+    });
   }
 
   private getRelevantContext(req: Request) {
