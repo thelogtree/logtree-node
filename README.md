@@ -1,6 +1,6 @@
 # Logtree NodeJS package
 
-This package is only available to people who already have a Logtree account. You can learn more about Logtree and sign up for free [here.](https://logtree.co)
+This package is only available to people who already have a Logtree account. You can learn more about Logtree and sign up for free [here.](https://trylogtree.com)
 
 ## How to install the package
 
@@ -16,7 +16,7 @@ If you're using npm:
 npm install logtree-node
 ```
 
-## How to send a log to Logtree
+## How to send an event to Logtree
 
 ```
 import { Logtree } from "logtree-node";
@@ -24,10 +24,10 @@ import { Logtree } from "logtree-node";
 // you can find these keys in the API Dashboard tab in Logtree.
 const MyLogtree = new Logtree(your_publishable_api_key, your_secret_key)
 
-// send a log
+// send an event
 MyLogtree.sendLog({ content: "Some user just joined my waitlist!", folderPath: "/waitlist" })
 
-// send a log for quick debugging purposes
+// send an event for quick debugging purposes
 MyLogtree.sendDebugLog("got here")
 ```
 
@@ -100,6 +100,6 @@ type SendErrorLogParams = {
 
 Error logs sent with the sendErrorLog function will appear in the /errors channel in Logtree.
 
-## Your logs will be viewable and searchable in the Logtree dashboard
+## Your events will be viewable and searchable in the Logtree dashboard
 
 <img width="283" alt="Screenshot 2023-05-18 at 4 54 19 PM" src="https://github.com/thelogtree/logtree-node/assets/62567315/284cc140-6201-4089-b402-1d9fe60f2070">
